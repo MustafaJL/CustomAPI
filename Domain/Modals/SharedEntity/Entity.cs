@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Modals.SharedFields
 {
-    public class Entity
+    public abstract class Entity
     {
         [Key]
         public long Id { get; set; }

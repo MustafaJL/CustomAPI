@@ -32,18 +32,6 @@ namespace CustomAPI.Controllers
             return Ok(role);
         }
 
-        [HttpPut]
-        [Route("UpdateRole/{roleId}")]
-        public async Task<IActionResult> UpdateRole(int roleId, Role role)
-        {
-            Role dbObject = await _unitOfWork.Roles.GetById(roleId);
-            if(dbObject != null)
-            {
-
-            }
-                
-
-
-        }
+        
     }
 }
