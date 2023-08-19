@@ -13,6 +13,12 @@ namespace Persistance.UnitOfWork
 
         IRoleRepository Roles { get; }
 
+        IProductRepository Products { get; }    
+
+        ISizeRepository Size { get; }
+
+        IBrandRepository Brand { get; }
+        ICategoryRepository Category { get; }
         int Save(); 
     }
 }

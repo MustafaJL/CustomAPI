@@ -1,4 +1,5 @@
 ﻿using Domain.Modals;
+using Persistance.DTO.Shared;
 using Persistance.Repository.IBase;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Persistance.Repository.IRepository
 {
-    public interface IUserRepository : IRepository<User>
+    public interface ISizeRepository : IRepository<Size>
     {
-        public Task<User> GetUserByEmail(string email);
-        public Task<IEnumerable<User>> GetAllUsers();
+        Task<List<LabelValueDto>> getSizes();
     }
 }

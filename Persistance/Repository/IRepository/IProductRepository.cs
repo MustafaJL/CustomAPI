@@ -1,4 +1,5 @@
-﻿using Domain.Modals;
+﻿using CustomAPI.ViewModel;
+using Domain.Modals;
 using Persistance.Repository.IBase;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Persistance.Repository.IRepository
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IProductRepository : IRepository<Product>
     {
-        public Task<User> GetUserByEmail(string email);
-        public Task<IEnumerable<User>> GetAllUsers();
+        Task<List<ProductViewModel>> GetProducts(string language); 
     }
 }
