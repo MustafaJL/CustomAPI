@@ -21,7 +21,7 @@ namespace Persistance.Repository.Base
             _set = _context.Set<T>();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetById(long id)
         {
             return await _set.FindAsync(id);
         }
@@ -36,6 +36,10 @@ namespace Persistance.Repository.Base
             await _set.AddAsync(entity);
         }
 
+        public async Task AddRangeAsync(List<T> entity)
+        {
+            await _set.AddRangeAsync(entity);
+        }
         public void Delete(T entity)
         {
             _set.Remove(entity);

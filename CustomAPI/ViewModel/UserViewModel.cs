@@ -1,0 +1,14 @@
+﻿using Domain.Modals;
+
+namespace CustomAPI.ViewModel
+{
+    public class UserViewModel
+    {
+        public long Id { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public Role Role { get; set; }
+    }
+}
