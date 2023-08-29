@@ -22,35 +22,21 @@ namespace Persistance.Repository
         {
             _context = context;
         }
-        public async Task<List<LabelValueDto>> getBrands(string language)
+        public async Task<List<LabelValueDto>> getBrands()
         {
             List<LabelValueDto> brands = new List<LabelValueDto>();
            
-            switch (language)
-            {
-                case Language.ENGLISH:
-                    brands = await _context
-                                            .Brands
-                                            .Select(x => new LabelValueDto
-                                            {
-                                                label = x.BrandNameEng,
-                                                value = x.Id.ToString(),
-                                            })
-                                            .ToListAsync();
-                    break;
-                case Language.BRAZIL:
-                    brands = await _context
-                                            .Brands
-                                            .Select(x => new LabelValueDto
-                                            {
-                                                label = x.BrandNameBraz,
-                                                value = x.Id.ToString(),
-                                            })
-                                            .ToListAsync();
-                    break;
-                default:
-                    break;
-            }
+        
+            brands = await _context
+                                    .Brands
+                                    .Select(x => new LabelValueDto
+                                    {
+                                        label = x.BrandName,
+                                        value = x.Id.ToString(),
+                                    })
+                                    .ToListAsync();
+                
+            
             return brands;
         }
     }

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Modals;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 namespace Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
@@ -22,7 +24,9 @@ namespace Infrastructure.Data
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductDetails> ProductDetails { get; set; }
 
+       
 
-        
     }
+
+    
 }

@@ -1,4 +1,5 @@
-﻿using Persistance.Repository.IRepository;
+﻿using Persistance.Repository;
+using Persistance.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ namespace Persistance.UnitOfWork
 
         IRoleRepository Roles { get; }
 
-        IProductRepository Products { get; }    
+        IProductRepository Products { get; }
+
+        IProductDetailsRepository ProductDetails { get; }
 
         ISizeRepository Size { get; }
 

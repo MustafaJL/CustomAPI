@@ -22,35 +22,21 @@ namespace Persistance.Repository
             _context = context;
         }
 
-        public async Task<List<LabelValueDto>> getCategories(string language)
+        public async Task<List<LabelValueDto>> getCategories()
         {
             List<LabelValueDto> categories = new List<LabelValueDto>();
 
-            switch (language)
-            {
-                case Language.ENGLISH:
-                    categories = await _context
-                                            .Categories
-                                            .Select(x => new LabelValueDto
-                                            {
-                                                label = x.CategoryNameEng,
-                                                value = x.Id.ToString(),
-                                            })
-                                            .ToListAsync();
-                    break;
-                case Language.BRAZIL:
-                    categories = await _context
-                                            .Categories
-                                            .Select(x => new LabelValueDto
-                                            {
-                                                label = x.CategoryNameBraz,
-                                                value = x.Id.ToString(),
-                                            })
-                                            .ToListAsync();
-                    break;
-                default:
-                    break;
-            }
+          
+            categories = await _context
+                                    .Categories
+                                    .Select(x => new LabelValueDto
+                                    {
+                                        label = x.CategoryName,
+                                        value = x.Id.ToString(),
+                                    })
+                                    .ToListAsync();
+                    
+            
             return categories;
         }
     }

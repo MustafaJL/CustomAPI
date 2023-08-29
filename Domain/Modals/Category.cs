@@ -9,7 +9,6 @@ namespace Domain.Modals
 {
     public class Category : Entity
     {
-        public string CategoryNameEng { get; set; } = string.Empty;
-        public string CategoryNameBraz { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
     }
 }

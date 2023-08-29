@@ -11,7 +11,6 @@ namespace Domain.Modals
     [Table("Roles")]
     public class Role : Entity
     {
-        public string RoleNameEng { get; set; } = string.Empty;
-        public string RoleNameBraz { get; set; } = string.Empty;
+        public string RoleName { get; set; } = string.Empty;
     }
 }

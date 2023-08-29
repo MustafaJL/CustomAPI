@@ -11,7 +11,7 @@ namespace Persistance.Repository.IRepository
 {
     public interface IBrandRepository : IRepository<Brand>
     {
-        Task<List<LabelValueDto>> getBrands(string language);
+        Task<List<LabelValueDto>> getBrands();
     }
     
 }

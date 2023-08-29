@@ -20,6 +20,7 @@ namespace Persistance.UnitOfWork
         public IBrandRepository Brand { get; }
         public ICategoryRepository Category { get; }
 
+        public IProductDetailsRepository ProductDetails {get; }
 
         public UnitOfWork(ApplicationDbContext dbContext,
                             IUserRepository usersRepository,
@@ -27,7 +28,8 @@ namespace Persistance.UnitOfWork
                             IProductRepository productRepository,
                             ISizeRepository sizeRepository,
                             IBrandRepository brandRepository,
-                            ICategoryRepository category)
+                            ICategoryRepository category,
+                            IProductDetailsRepository productDetails)
         {
             _context = dbContext;
             Users = usersRepository;
@@ -36,6 +38,7 @@ namespace Persistance.UnitOfWork
             Size = sizeRepository;
             Brand = brandRepository;
             Category = category;
+            ProductDetails = productDetails;
         }
 
         public int Save()

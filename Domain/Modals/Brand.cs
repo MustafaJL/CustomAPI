@@ -9,8 +9,7 @@ namespace Domain.Modals
 {
     public class Brand : Entity
     {
-        public string BrandNameEng { get; set; } = string.Empty;
-        public string BrandNameBraz { get; set; } = string.Empty;
+        public string BrandName { get; set; } = string.Empty;
 
     }
 }

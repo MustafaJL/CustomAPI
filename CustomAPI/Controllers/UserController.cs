@@ -135,7 +135,7 @@ namespace CustomAPI.Controllers
             {
                 new Claim(ClaimTypes.Name, user.FirstName + user.LastName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role,  _unitOfWork.Roles.GetById(user.RoleId).Result.RoleNameEng),
+                new Claim(ClaimTypes.Role,  _unitOfWork.Roles.GetById(user.RoleId).Result.RoleName),
                 new Claim("userId", user.Id.ToString()),
 
             };

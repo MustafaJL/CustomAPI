@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Application.Query
 {
-    public record BrandQuery(string language) : IRequest<List<LabelValueDto>>;
+    public record BrandQuery() : IRequest<List<LabelValueDto>>;
 }

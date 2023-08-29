@@ -16,10 +16,10 @@ namespace CustomAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getCategories/{language}")]
-        public async Task<IActionResult> getCategories(string language)
+        [Route("getCategories")]
+        public async Task<IActionResult> getCategories()
         {
-            var query = new CategoryQuery(language);
+            var query = new CategoryQuery();
             var response = await _mediator.Send(query);
             return Ok(response);
         }

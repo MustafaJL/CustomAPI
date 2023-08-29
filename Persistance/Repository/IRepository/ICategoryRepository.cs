@@ -11,6 +11,6 @@ namespace Persistance.Repository.IRepository
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Task<List<LabelValueDto>> getCategories(string language);
+        Task<List<LabelValueDto>> getCategories();
     }
 }

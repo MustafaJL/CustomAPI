@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Command\CommandHandler\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Persistance\Persistance.csproj" />
   </ItemGroup>
 

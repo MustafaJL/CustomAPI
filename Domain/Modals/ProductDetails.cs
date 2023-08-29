@@ -12,7 +12,7 @@ namespace Domain.Modals
         public long productId { get; set; }
         public long SizeId { get; set; }
         public long TotalQuantity { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
         public Product Product { get; set; }
         public Size Size { get; set; }

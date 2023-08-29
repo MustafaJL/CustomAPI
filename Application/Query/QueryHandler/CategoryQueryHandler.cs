@@ -19,7 +19,7 @@ namespace Application.Query.QueryHandler
 
         public async Task<List<LabelValueDto>> Handle(CategoryQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.Category.getCategories(request.language);
+            return await _unitOfWork.Category.getCategories();
         }
     }
 }

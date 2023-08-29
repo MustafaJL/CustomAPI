@@ -11,6 +11,7 @@ namespace Persistance.Repository.IBase
         Task<T> GetById(long id);
         Task<IEnumerable<T>> GetAll();
         Task Add(T entity);
+        Task AddRangeAsync(List<T> entity);
         void Delete(T entity);
         void Update(T entity);
     }

@@ -36,6 +36,10 @@ namespace Persistance.Repository.Base
             await _set.AddAsync(entity);
         }
 
+        public async Task AddRangeAsync(List<T> entity)
+        {
+            await _set.AddRangeAsync(entity);
+        }
         public void Delete(T entity)
         {
             _set.Remove(entity);

@@ -12,11 +12,9 @@ namespace Domain.Modals
     public class Product :Entity
     {
         [Required]
-        public string ProductNameEng { get; set; } = string.Empty;
-        public string ProductNameBraz { get; set; } = string.Empty;
+        public string ProductName { get; set; } = string.Empty;
 
-        public string DescriptionEng { get; set; } = string.Empty;
-        public string DescriptionBraz { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         [Required]
         public string AdditionalData { get; set; } = string.Empty;
         [Required]

@@ -19,7 +19,7 @@ namespace Application.Query.QueryHandler
         }
         public async Task<List<LabelValueDto>> Handle(BrandQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.Brand.getBrands(request.language);  
+            return await _unitOfWork.Brand.getBrands();  
         }
     }
 }
