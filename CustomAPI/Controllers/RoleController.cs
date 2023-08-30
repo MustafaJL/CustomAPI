@@ -67,6 +67,10 @@ namespace CustomAPI.Controllers
             }
             return BadRequest("Error Occured");
         }
+
+
+
+
         [HttpDelete]
         [Route("deleteRoleById/{roleId}")]
         public async Task<IActionResult> deleteRoleById(long roleId)
