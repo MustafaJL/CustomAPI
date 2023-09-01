@@ -38,6 +38,7 @@ namespace CustomAPI.Controllers
                 Id = 0,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                Email = request.Email,
                 Password = Convert.ToBase64String(passwordHash),
                 Salt = Convert.ToBase64String(passwordSalt),
                 RoleId = request.RoleId,

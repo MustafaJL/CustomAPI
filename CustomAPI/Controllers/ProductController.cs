@@ -50,6 +50,7 @@ namespace CustomAPI.Controllers
                 };
                 await _unitOfWork.Products.Add(product);
                 _unitOfWork.Save();
+                
 
                 await _unitOfWork.ProductDetails.AddRangeAsync(productDTO.configurations.Select(x => new ProductDetails
                 {
@@ -58,12 +59,16 @@ namespace CustomAPI.Controllers
                     Price = x.price,
                     TotalQuantity = x.totalQuantity
                 }).ToList());
+                _unitOfWork.Save();
+
+
                   
                 return Ok("Product Added successfully");
                 
             }
             catch (Exception ex)
             {
+                
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
