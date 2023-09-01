@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Persistance.Repository.Base;
 using Persistance.Repository.IBase;
 using Persistance.Repository.IRepository;
+using Persistance.Services.IServices;
 using Persistance.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,13 @@ namespace Persistance.Repository
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IFileService _fileService;
 
-        public ProductRepository(ApplicationDbContext context, IConfiguration configuration) : base(context)
+        public ProductRepository(ApplicationDbContext context, IConfiguration configuration, IFileService fileService) : base(context)
         {
             _context = context;
             _configuration = configuration;
+            _fileService = fileService;
         }
 
         public async Task<List<ProductViewModel>> GetProducts()
@@ -46,7 +49,7 @@ namespace Persistance.Repository
                                         Category = x.Category.CategoryName,
                                         Brand = x.Brand.BrandName,
                                         Description = x.Description,
-                                        imagePath = getImageByPath(x.ImagePath),
+                                        imagePath = _fileService.GetImage(x.ImagePath, "ProductsImage"),
                                         productDetails =  x.ProductDetails
                                                                 .Select(x => new ProductDetailsViewModel
                                                                 {
@@ -66,22 +69,22 @@ namespace Persistance.Repository
 
         }
 
-        private static string getImageByPath(string path)
-        {
+        //private static string getImageByPath(string path)
+        //{
 
-            var imagePath = Path.Combine("C:", "PMS" ,"ProductsImage", path);
-            string? extension = Path.GetExtension(path)?.TrimStart('.');
-            if (System.IO.File.Exists(imagePath))
-            {
-                var imageBytes = System.IO.File.ReadAllBytes(imagePath);
-                var base64String = Convert.ToBase64String(imageBytes);
-                return $"data:image/{extension};base64," + base64String;
-            }
-            else
-            {
-                return "";
-            }
-        }
+        //    var imagePath = Path.Combine("C:", "PMS" ,"ProductsImage", path);
+        //    string? extension = Path.GetExtension(path)?.TrimStart('.');
+        //    if (System.IO.File.Exists(imagePath))
+        //    {
+        //        var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+        //        var base64String = Convert.ToBase64String(imageBytes);
+        //        return $"data:image/{extension};base64," + base64String;
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
 
     }
 }

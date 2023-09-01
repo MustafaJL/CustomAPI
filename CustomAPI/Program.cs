@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistance.Repository;
 using Persistance.Repository.IRepository;
+using Persistance.Services;
+using Persistance.Services.IServices;
 using Persistance.UnitOfWork;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
@@ -45,6 +47,11 @@ builder.Services.AddScoped<ISizeRepository, SizeRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductDetailsRepository, ProductDerailsRepository>();
+
+
+
+builder.Services.AddScoped<IFileService, FileService>();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

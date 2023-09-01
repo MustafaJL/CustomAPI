@@ -6,6 +6,9 @@ using Persistance.DTO;
 using Persistance.UnitOfWork;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using MediatR;
+using Application.Command;
+using Application.Query;
 
 namespace CustomAPI.Controllers
 {
@@ -13,11 +16,11 @@ namespace CustomAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IMediator mediator)
         {
-            _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         [HttpGet]
@@ -26,7 +29,9 @@ namespace CustomAPI.Controllers
         {
             try
             {
-                return await Task.FromResult(await _unitOfWork.Products.GetProducts());
+                var query = new GetProductsQuery();
+                var response = await _mediator.Send(query);
+                return await Task.FromResult(response);
             }
             catch
             {
@@ -40,29 +45,12 @@ namespace CustomAPI.Controllers
         {
             try
             {
-                Product product = new()
-                {
-                    ProductName = productDTO.productName,
-                    Description = productDTO.productDescription,
-                    CategoryId = productDTO.categoryId,
-                    BrandId = productDTO.brandId,
-                    ImagePath = "test.jpg"
-                };
-                await _unitOfWork.Products.Add(product);
-                _unitOfWork.Save();
-                
+                var addProductCommand = new AddProductCommand(productDTO);
+                var addProductCommandResponse = await _mediator.Send(addProductCommand);
 
-                await _unitOfWork.ProductDetails.AddRangeAsync(productDTO.configurations.Select(x => new ProductDetails
-                {
-                    productId = product.Id,
-                    SizeId = Convert.ToInt64(x.sizeId),
-                    Price = x.price,
-                    TotalQuantity = x.totalQuantity
-                }).ToList());
-                _unitOfWork.Save();
+                var addProductDetialsCommand = new AddProductDetailsCommand(productDTO.configurations, addProductCommandResponse);
+                var addProductDetialsCommandResponse = await _mediator.Send(addProductDetialsCommand);
 
-
-                  
                 return Ok("Product Added successfully");
                 
             }
