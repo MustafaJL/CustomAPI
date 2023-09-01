@@ -1,14 +1,12 @@
 ﻿using MediatR;
-using Persistance.DTO.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Query
+namespace Application.Command
 {
-    public record CategoryQuery (): IRequest<List<LabelValueDto>>;
+    public record DeleteSizeCommand(long sizeId) : IRequest<bool>;
 
-    
 }
