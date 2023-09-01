@@ -1,7 +1,9 @@
-﻿using Application.Query;
+﻿using Application.Command;
+using Application.Query;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Persistance.DTO;
 
 namespace CustomAPI.Controllers
 {
@@ -22,6 +24,45 @@ namespace CustomAPI.Controllers
             var query = new CategoryQuery();
             var response = await _mediator.Send(query);
             return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("addCategory")]
+        public async Task<IActionResult> addCategory(CategoryDTO categoryDTO)
+        {
+            var command = new AddCategoryCommand(categoryDTO);
+            var response = await _mediator.Send(command);
+            if (response)
+            {
+                return Ok("Category has been added successfuly!");
+            }
+            return BadRequest("Error Occured");
+        }
+
+        [HttpPut]
+        [Route("updateCategory")]
+        public async Task<IActionResult> updateCategory(CategoryDTO categoryDTO)
+        {
+            var command = new UpdateCategoryCommand(categoryDTO);
+            var response = await _mediator.Send(command);
+            if (response)
+            {
+                return Ok("Category has been updated successfully");
+            }
+            return BadRequest("Error Occured");
+        }
+
+        [HttpDelete]
+        [Route("deleteCategoryById/{categoryId}")]
+        public async Task<IActionResult> deleteCategoryById(long categoryId)
+        {
+            var command = new DeleteCategoryCommand(categoryId);
+            var response = await _mediator.Send(command);
+            if (response)
+            {
+                return Ok($"Category with Id {categoryId} has been deleted successfully");
+            }
+            return BadRequest("Error Occured");
         }
     }
 }
