@@ -36,6 +36,7 @@ namespace Application.Command.CommandHandler
                     ImagePath = "test.jpg"
                 };
                 await _unitOfWork.Products.Add(product);
+
                 _unitOfWork.Save();
                 return product.Id;
             }
