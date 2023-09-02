@@ -26,6 +26,21 @@ namespace CustomAPI.Controllers
             var response = await _mediator.Send(list);
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("getSizeById/{sizeId}")]
+        public async Task<IActionResult> getSizeById(long sizeId)
+        {
+            var query = new GetSizeByIdQuery(new SizeDTO { Id = sizeId });
+            var response = await _mediator.Send(query);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return NotFound($"Size with Id {sizeId} not found");
+        }
+
         [HttpPost]
         [Route("addSize")]
         public async Task<IActionResult> addSize(SizeDTO sizeDTO)
@@ -38,6 +53,10 @@ namespace CustomAPI.Controllers
             }
             return BadRequest("Error Occured");
         }
+
+
+
+
         [HttpPut]
         [Route("updateSize")]
         public async Task<IActionResult> updateSize(SizeDTO sizeDTO)

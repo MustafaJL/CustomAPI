@@ -26,6 +26,20 @@ namespace CustomAPI.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("getCategoryById/{categoryId}")]
+        public async Task<IActionResult> getCategoryById(long categoryId)
+        {
+            var query = new GetCategoryByIdQuery(new CategoryDTO { Id = categoryId });
+            var response = await _mediator.Send(query);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return NotFound($"Category with Id {categoryId} not found");
+        }
+
         [HttpPost]
         [Route("addCategory")]
         public async Task<IActionResult> addCategory(CategoryDTO categoryDTO)

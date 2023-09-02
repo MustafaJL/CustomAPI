@@ -37,6 +37,19 @@ namespace CustomAPI.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("getRoleById/{roleId}")]
+        public async Task<IActionResult> getRoleById(long roleId)
+        {
+            var query = new GetRoleByIdQuery(new RoleDTO { Id = roleId });
+            var response = await _mediator.Send(query);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return NotFound($"Role with Id {roleId} not found");
+        }
 
         [HttpPost]
         [Route("addRole")]

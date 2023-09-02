@@ -27,7 +27,24 @@ namespace CustomAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpGet]
+        [Route("getBrandById/{brandId}")]
+        public async Task<IActionResult> getBrandById(long brandId)
+        {
+            var query = new GetBrandByIdQuery(new BrandDTO { Id = brandId });
+            var response = await _mediator.Send(query);
+
+            if (response != null)
+            {
+                return Ok(response);
+            }
+            return NotFound($"Brand with Id {brandId} not found");
+        }
+
+
+
+
+        [HttpPost]  
         [Route("addBrand")]
         public async Task<IActionResult> addBrand(BrandDTO brandDTO)
         {
