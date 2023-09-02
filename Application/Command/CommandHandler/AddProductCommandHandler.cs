@@ -1,5 +1,6 @@
 ﻿using Domain.Modals;
 using MediatR;
+using Persistance.Services.IServices;
 using Persistance.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,15 @@ namespace Application.Command.CommandHandler
     public class AddProductCommandHandler : IRequestHandler<AddProductCommand, long>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFileService _fileService;
         #region Properties
         #endregion
 
         #region Ctor
-        public AddProductCommandHandler(IUnitOfWork unitOfWork)
+        public AddProductCommandHandler(IUnitOfWork unitOfWork, IFileService fileService)
         {
             _unitOfWork = unitOfWork;
+            _fileService = fileService;
         }
         #endregion
 
@@ -33,7 +36,7 @@ namespace Application.Command.CommandHandler
                     Description = request.productDTO.productDescription,
                     CategoryId = request.productDTO.categoryId,
                     BrandId = request.productDTO.brandId,
-                    ImagePath = "test.jpg"
+                    ImagePath = _fileService.UploadImage(request.productDTO.productImage, "ProductsImage").Result
                 };
                 await _unitOfWork.Products.Add(product);
 
