@@ -99,5 +99,21 @@ namespace CustomAPI.Controllers
                 return false;
             }
         }
+
+        [HttpPut]
+        [Route("updateProduct/{productId}")]
+        public async Task<bool> UpdateProduct(long productId, [FromForm] AddProductDTO productDTO)
+        {
+            try
+            {
+                var command = new UpdateProductCommand(productId, productDTO);
+                var response = await _mediator.Send(command);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

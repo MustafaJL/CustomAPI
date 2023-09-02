@@ -49,7 +49,7 @@ namespace Persistance.Repository
                                         Category = x.Category.CategoryName,
                                         Brand = x.Brand.BrandName,
                                         Description = x.Description,
-                                        imagePath = _fileService.GetImage(x.ImagePath, "ProductsImage"),
+                                        imagePath = _fileService.GetImage(x.ImagePath, AppConstans.PRODUCTS_IMAGE),
                                         productDetails =  x.ProductDetails
                                                                 .Select(x => new ProductDetailsViewModel
                                                                 {
@@ -87,7 +87,7 @@ namespace Persistance.Repository
                                 Category = x.Category.CategoryName,
                                 Brand = x.Brand.BrandName,
                                 Description = x.Description,
-                                imagePath = _fileService.GetImage(x.ImagePath, "ProductsImage"),
+                                imagePath = _fileService.GetImage(x.ImagePath, AppConstans.PRODUCTS_IMAGE),
                                 productDetails = x.ProductDetails
                                                         .Select(x => new ProductDetailsViewModel
                                                         {

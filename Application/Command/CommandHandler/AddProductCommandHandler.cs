@@ -1,4 +1,5 @@
-﻿using Domain.Modals;
+﻿using Domain.Constants;
+using Domain.Modals;
 using MediatR;
 using Persistance.Services.IServices;
 using Persistance.UnitOfWork;
@@ -36,7 +37,7 @@ namespace Application.Command.CommandHandler
                     Description = request.productDTO.productDescription,
                     CategoryId = request.productDTO.categoryId,
                     BrandId = request.productDTO.brandId,
-                    ImagePath = _fileService.UploadImage(request.productDTO.productImage, "ProductsImage").Result
+                    ImagePath = _fileService.UploadImage(request.productDTO.productImage, AppConstans.PRODUCTS_IMAGE).Result
                 };
                 await _unitOfWork.Products.Add(product);
 
