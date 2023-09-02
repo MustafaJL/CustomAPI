@@ -13,10 +13,9 @@ namespace Domain.Modals
     {
         [Required]
         public string ProductName { get; set; } = string.Empty;
-
-        public string Description { get; set; } = string.Empty;
         [Required]
-        public string AdditionalData { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string AdditionalData { get; set; }
         [Required]
         public long CategoryId { get; set; }
         [ForeignKey("CategoryId")]
@@ -27,7 +26,6 @@ namespace Domain.Modals
         public Brand Brand { get; set; }
         public string ImagePath { get; set; } = string.Empty;
         public ICollection<ProductDetails> ProductDetails { get; set;}
-        public ICollection<Size> Size { get; set; }
 
     }
 }

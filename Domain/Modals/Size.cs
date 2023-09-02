@@ -11,6 +11,5 @@ namespace Domain.Modals
     {
         public string size { get; set; } = string.Empty;
         public ICollection<ProductDetails> ProductDetails { get; set; }
-        public ICollection<Product> Product { get; set; }
     }
 }
