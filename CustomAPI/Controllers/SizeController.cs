@@ -43,15 +43,19 @@ namespace CustomAPI.Controllers
 
         [HttpPost]
         [Route("addSize")]
-        public async Task<IActionResult> addSize(SizeDTO sizeDTO)
+        public async Task<bool> addSize(SizeDTO sizeDTO)
         {
-            var command = new AddSizeCommand(sizeDTO);
-            var response = await _mediator.Send(command);
-            if (response)
+            try
             {
-                return Ok("Size has been added successfuly!");
+                var command = new AddSizeCommand(sizeDTO);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+            catch(Exception ex)
+            {
+                return false;
+            }
+            
         }
 
 
@@ -59,27 +63,35 @@ namespace CustomAPI.Controllers
 
         [HttpPut]
         [Route("updateSize")]
-        public async Task<IActionResult> updateSize(SizeDTO sizeDTO)
+        public async Task<bool> updateSize(SizeDTO sizeDTO)
         {
-            var command = new UpdateSizeCommand(sizeDTO);
-            var response = await _mediator.Send(command);
-            if (response)
+            try
             {
-                return Ok("Size has been updated successfully");
+                var command = new UpdateSizeCommand(sizeDTO);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+            catch(Exception ex)
+            {
+                return false;
+            }
+            
+            
         }
         [HttpDelete]
         [Route("deleteSizeById/{sizeId}")]
-        public async Task<IActionResult> deleteSizeById(long sizeId)
+        public async Task<bool> deleteSizeById(long sizeId)
         {
-            var command = new DeleteSizeCommand(sizeId);
-            var response = await _mediator.Send(command);
-            if (response)
+            try
             {
-                return Ok($"Size with Id {sizeId} has been deleted successfully");
+                var command = new DeleteSizeCommand(sizeId);
+                var response = await _mediator.Send(command);
+                return response;
             }
-            return BadRequest("Error Occured");
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
     }
