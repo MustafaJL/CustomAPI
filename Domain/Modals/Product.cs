@@ -15,7 +15,7 @@ namespace Domain.Modals
         public string ProductName { get; set; } = string.Empty;
         [Required]
         public string Description { get; set; } = string.Empty;
-        public string AdditionalData { get; set; }
+        public string? AdditionalData { get; set; }
         [Required]
         public long CategoryId { get; set; }
         [ForeignKey("CategoryId")]

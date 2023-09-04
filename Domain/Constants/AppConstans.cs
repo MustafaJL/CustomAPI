@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Constants
 {
-    public struct Language
+    public struct AppConstans
     {
-        public const string ENGLISH = "eng";
-        public const string BRAZIL = "bra";
+        #region FolderPaths
+        public const string PRODUCTS_IMAGE = "ProductsImage";
+        #endregion
     }
 }

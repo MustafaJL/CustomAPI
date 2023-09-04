@@ -9,6 +9,11 @@ using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Application.Command;
 using Application.Query;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http.Json;
+using Newtonsoft.Json;
 
 namespace CustomAPI.Controllers
 {
@@ -40,15 +45,33 @@ namespace CustomAPI.Controllers
 
         }
 
-        [HttpPost("AddProduct")]
-        public async Task<IActionResult> AddProduct(AddProductDTO productDTO)
+        [HttpGet]
+        [Route("GetProductById/{productId}")]
+        public async Task<ProductViewModel> GetProductById(long productId)
+        {
+            try
+            {
+                var query = new GetProductByIdQuery(productId);
+                var response = await _mediator.Send(query);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                return new ProductViewModel();
+            }
+        }
+
+        [HttpPost]
+        [Route("AddProduct")]
+        public async Task<IActionResult> AddProduct([FromForm] AddProductDTO productDTO)
         {
             try
             {
                 var addProductCommand = new AddProductCommand(productDTO);
                 var addProductCommandResponse = await _mediator.Send(addProductCommand);
 
-                var addProductDetialsCommand = new AddProductDetailsCommand(productDTO.configurations, addProductCommandResponse);
+                List<ProductConfigurationDTO> productConfigurationDTOs = JsonConvert.DeserializeObject<List<ProductConfigurationDTO>>(productDTO.configurations);
+                var addProductDetialsCommand = new AddProductDetailsCommand(productConfigurationDTOs, addProductCommandResponse);
                 var addProductDetialsCommandResponse = await _mediator.Send(addProductDetialsCommand);
 
                 return Ok("Product Added successfully");
@@ -58,6 +81,38 @@ namespace CustomAPI.Controllers
             {
                 
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete]
+        [Route("deleteProductById/{porudctId}")]
+        public async Task<bool> DeleteProductById(long porudctId)
+        {
+            try
+            {
+                var command = new DeleteProductCommand(porudctId);
+                var response = await _mediator.Send(command);
+                return response;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        [HttpPut]
+        [Route("updateProduct/{productId}")]
+        public async Task<bool> UpdateProduct(long productId, [FromForm] AddProductDTO productDTO)
+        {
+            try
+            {
+                var command = new UpdateProductCommand(productId, productDTO);
+                var response = await _mediator.Send(command);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
     }

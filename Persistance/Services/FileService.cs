@@ -17,6 +17,23 @@ namespace Persistance.Services
         {
             _configuration = configuration;
         }
+
+        public void DeleteImage(string path, string folderName)
+        {
+            var imagePath = Path.Combine(_configuration.GetSection("Images:" + folderName).Value, path);
+            try
+            {
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+            }
+            catch(Exception ex)
+            {
+            }
+            
+        }
+
         public string GetImage(string path, string folderName)
         {
             var imagePath = Path.Combine(_configuration.GetSection("Images:" + folderName).Value,path);
