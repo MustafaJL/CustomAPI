@@ -44,10 +44,15 @@ namespace Persistance.Repository.Base
         {
             _set.Remove(entity);
         }
-
+        public void RemoveRange(List<T> entities)
+        {
+            _set.RemoveRange(entities);
+        }
         public void Update(T entity)
         {
             _set.Update(entity);
         }
+
+        
     }
 }

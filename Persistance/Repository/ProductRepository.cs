@@ -49,7 +49,7 @@ namespace Persistance.Repository
                                         Category = x.Category.CategoryName,
                                         Brand = x.Brand.BrandName,
                                         Description = x.Description,
-                                        imagePath = _fileService.GetImage(x.ImagePath, "ProductsImage"),
+                                        imagePath = _fileService.GetImage(x.ImagePath, AppConstans.PRODUCTS_IMAGE),
                                         productDetails =  x.ProductDetails
                                                                 .Select(x => new ProductDetailsViewModel
                                                                 {
@@ -69,22 +69,43 @@ namespace Persistance.Repository
 
         }
 
-        //private static string getImageByPath(string path)
-        //{
+        public async Task<ProductViewModel> GetProductById(long productId)
+        {
 
-        //    var imagePath = Path.Combine("C:", "PMS" ,"ProductsImage", path);
-        //    string? extension = Path.GetExtension(path)?.TrimStart('.');
-        //    if (System.IO.File.Exists(imagePath))
-        //    {
-        //        var imageBytes = System.IO.File.ReadAllBytes(imagePath);
-        //        var base64String = Convert.ToBase64String(imageBytes);
-        //        return $"data:image/{extension};base64," + base64String;
-        //    }
-        //    else
-        //    {
-        //        return "";
-        //    }
-        //}
+
+            var productViewModel = await _context
+                            .Products
+                            .Where(x => x.Id == productId)
+                            .Include(x => x.Category)
+                            .Include(x => x.Brand)
+                            .Include(x => x.ProductDetails)
+                            .ThenInclude(x => x.Size)
+                            .Select(x => new ProductViewModel
+                            {
+                                Id = x.Id,
+                                Name = x.ProductName,
+                                Category = x.Category.CategoryName,
+                                Brand = x.Brand.BrandName,
+                                Description = x.Description,
+                                imagePath = _fileService.GetImage(x.ImagePath, AppConstans.PRODUCTS_IMAGE),
+                                productDetails = x.ProductDetails
+                                                        .Select(x => new ProductDetailsViewModel
+                                                        {
+                                                            sizeId = x.SizeId,
+                                                            TotalQuantity = x.TotalQuantity,
+                                                            sizeName = x.Size.size,
+                                                            Price = x.Price,
+                                                        })
+                                                        .ToList()
+                            })
+                            .FirstOrDefaultAsync();
+
+
+
+            return productViewModel;
+
+
+        }
 
     }
 }

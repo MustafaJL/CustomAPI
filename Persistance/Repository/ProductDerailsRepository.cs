@@ -26,6 +26,10 @@ namespace Persistance.Repository
             _context = context;
         }
 
-        
+        public async Task<List<ProductDetails>> GetProductDetailsByProductId(long productId)
+        {
+            var productDetails = await _context.ProductDetails.Where(x => x.productId == productId).ToListAsync();
+            return productDetails;
+        }
     }
 }

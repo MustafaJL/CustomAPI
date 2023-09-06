@@ -11,5 +11,6 @@ namespace Persistance.Repository.IRepository
 {
     public interface IProductDetailsRepository : IRepository<ProductDetails>
     {
+        Task<List<ProductDetails>> GetProductDetailsByProductId(long productId);
     }
 }

@@ -11,5 +11,6 @@ namespace Persistance.Services.IServices
     {
         string GetImage(string path, string folderName);
         Task<string> UploadImage(IFormFile file, string folderName);
+        void DeleteImage(string path, string folderName);
     }
 }
