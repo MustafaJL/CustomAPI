@@ -19,6 +19,20 @@ namespace Domain.Modals
         public string Salt { get; set; } = string.Empty;
         public long RoleId { get; set; }
         [ForeignKey("RoleId")]
-        public Role Role { get; set; } 
+        public Role Role { get; set; }
+        //Add new property 
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public string Gender { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string ImagePath { get; set; } = string.Empty;
+        //public long NationalityId { get; set; }
+        //[ForeignKey("NationalityId")]
+        //public Nationality Nationality { get; set; }
+
+
+
+
+
     }
 }

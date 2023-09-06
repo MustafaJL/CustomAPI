@@ -16,6 +16,7 @@ namespace Infrastructure.Data
 
         }
 
+
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Brand> Brands { get; set; }
@@ -23,6 +24,7 @@ namespace Infrastructure.Data
         public virtual DbSet<Size> Sizes { get; set; } 
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductDetails> ProductDetails { get; set; }
+        public virtual DbSet<Nationality> Nationalities { get; set; }
 
        
 

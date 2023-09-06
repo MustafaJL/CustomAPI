@@ -1,5 +1,8 @@
-﻿using CustomAPI.ViewModel;
+﻿using Application.Command;
+using Application.Query;
+using CustomAPI.ViewModel;
 using Domain.Modals;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,15 +23,17 @@ namespace CustomAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
+        private readonly IMediator _mediator;
 
-        public UserController(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public UserController(IUnitOfWork unitOfWork, IConfiguration configuration, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
+            _mediator = mediator;
         }
 
         [HttpPost("register")]
-        public JsonResult Register(UserDto request)
+        public async Task<IActionResult> Register(UserDto request)
         {
             string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
 
@@ -42,6 +47,11 @@ namespace CustomAPI.Controllers
                 Password = Convert.ToBase64String(passwordHash),
                 Salt = Convert.ToBase64String(passwordSalt),
                 RoleId = request.RoleId,
+                PhoneNumber= request.PhoneNumber,
+                Address = request.Address,
+                DateOfBirth = request.DateOfBirth,
+                Gender  = request.Gender,
+
             };
 
             _unitOfWork.Users.Add(user);
@@ -49,9 +59,72 @@ namespace CustomAPI.Controllers
 
 
             return new JsonResult("Registered Successfully!");
+            //string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
+
+            //CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
+            //User user = new User()
+            //{
+            //    Id = 0,
+            //    FirstName = request.FirstName,
+            //    LastName = request.LastName,
+            //    Email = request.Email,
+            //    Password = Convert.ToBase64String(passwordHash),
+            //    Salt = Convert.ToBase64String(passwordSalt),
+            //    RoleId = request.RoleId,
+
+            //};
+
+            //_unitOfWork.Users.Add(user);
+            //_unitOfWork.Save();
+
+
+            //return new JsonResult("Registered Successfully!");
+            //var command = new AddUserCommand(request);
+            //var response = await _mediator.Send(command);
+            //if (response)
+            //{
+            //    return Ok("User has been added successfuly!");
+            //}
+            //return BadRequest("Error Occured");
+
+
+
         }
 
         [HttpPost("login")]
+        //public async Task<ActionResult<UserInfoDto>> Login(LoginDto request)
+        //{
+        //    var user = await _unitOfWork.Users.GetUserByEmail(request.Email);
+        //    string token = "";
+        //    if (user == null)
+        //    {
+        //        return BadRequest(new JsonResult("User not found!"));
+        //    }
+        //    else
+        //    {
+
+        //        if (!VerifyPasswordHash(request.Password, Convert.FromBase64String(user.Password), Convert.FromBase64String(user.Salt)))
+        //        {
+        //            return BadRequest(new JsonResult("Invalid Password"));
+        //        }
+
+        //        token = CreateToken(user);
+        //    }
+
+
+
+        //    UserInfoDto userInfo = new UserInfoDto
+        //    {
+        //        Id = user.Id,
+        //        FirstName = user.FirstName,
+        //        LastName = user.LastName,
+        //        Email = user.Email,
+        //        Token = token,
+        //        RoleId = user.RoleId,
+        //    };
+           
+        //    return Ok(userInfo);
+        //}
         public async Task<ActionResult<UserDto>> Login(LoginDto request)
         {
             var user = await _unitOfWork.Users.GetUserByEmail(request.Email);
@@ -82,33 +155,81 @@ namespace CustomAPI.Controllers
                 Token = token,
                 RoleId = user.RoleId,
             };
-           
+
             return Ok(userInfo);
         }
+
+
 
 
         [HttpGet]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsers()
         {
-            IEnumerable<User> users = await _unitOfWork.Users.GetAllUsers();
-            List<UserViewModel> usersViewModel = new List<UserViewModel>();
-            foreach(var user in users)
-            {
-                usersViewModel.Add(new UserViewModel
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Role = user.Role,
-                });
-            }
+            //IEnumerable<User> users = await _unitOfWork.Users.GetAllUsers();
+            //List<UserViewModel> usersViewModel = new List<UserViewModel>();
+            //foreach(var user in users)
+            //{
+            //    usersViewModel.Add(new UserViewModel
+            //    {
+            //        Id = user.Id,
+            //        FirstName = user.FirstName,
+            //        LastName = user.LastName,
+            //        Email = user.Email,
+            //        Role = user.Role,
+            //    });
+            //}
 
-            return Ok(usersViewModel);
+            //return Ok(usersViewModel);
+            var list = new GetAllUsersQuery();
+            var response = await _mediator.Send(list);
+            return Ok(response);
 
         }
 
+
+        [HttpGet]
+        [Route("GetUserById/{userId}")]
+        public async Task<IActionResult> GetUserById(long userId)
+        {
+
+            var query = new GetUserByIdQuery(new UserDto { Id = userId });
+            var response = await _mediator.Send(query);
+
+            if (response == null)
+            {
+                return NotFound($"User with Id {userId} not found");
+               
+            }
+            return Ok(response);
+
+        }
+
+        [HttpPut]
+        [Route("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(UserDto userDto)
+        {
+            var command = new UpdateUserCommand(userDto);
+            var response = await _mediator.Send(command);
+            if (response)
+            {
+                return Ok("User has been updated successfully");
+            }
+            return BadRequest("Error Occured");
+        }
+
+        [HttpDelete]
+        [Route("DeleteUserById/{userId}")]
+        public async Task<IActionResult> DeleteUserById(long userId)
+        {
+            var command = new DeleteUserCommand(userId);
+            var response = await _mediator.Send(command);
+            if (response)
+            {
+                return Ok($"User with Id {userId} has been deleted successfully");
+            }
+            return BadRequest("Error Occured");
+        }
 
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
