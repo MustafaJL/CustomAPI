@@ -42,41 +42,57 @@ namespace CustomAPI.Controllers
 
         [HttpPost]
         [Route("addCategory")]
-        public async Task<IActionResult> addCategory(CategoryDTO categoryDTO)
+        public async Task<bool> addCategory(CategoryDTO categoryDTO)
         {
-            var command = new AddCategoryCommand(categoryDTO);
-            var response = await _mediator.Send(command);
-            if (response)
+            try
             {
-                return Ok("Category has been added successfuly!");
+                var command = new AddCategoryCommand(categoryDTO);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         [HttpPut]
         [Route("updateCategory")]
-        public async Task<IActionResult> updateCategory(CategoryDTO categoryDTO)
+        public async Task<bool> updateCategory(CategoryDTO categoryDTO)
         {
-            var command = new UpdateCategoryCommand(categoryDTO);
-            var response = await _mediator.Send(command);
-            if (response)
+            try
             {
-                return Ok("Category has been updated successfully");
+                var command = new UpdateCategoryCommand(categoryDTO);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         [HttpDelete]
         [Route("deleteCategoryById/{categoryId}")]
-        public async Task<IActionResult> deleteCategoryById(long categoryId)
+        public async Task<bool> deleteCategoryById(long categoryId)
         {
-            var command = new DeleteCategoryCommand(categoryId);
-            var response = await _mediator.Send(command);
-            if (response)
+            try
             {
-                return Ok($"Category with Id {categoryId} has been deleted successfully");
+                var command = new DeleteCategoryCommand(categoryId);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
     }
 }
+    
+
