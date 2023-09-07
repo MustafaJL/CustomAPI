@@ -82,7 +82,7 @@ namespace Persistance.Repository
 
         public async Task<User> GetUserByEmail(string email)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            User user = await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == email);
             if (user == null)
             {
                 return new User();

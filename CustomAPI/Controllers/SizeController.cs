@@ -10,6 +10,7 @@ namespace CustomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class SizeController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,6 +21,7 @@ namespace CustomAPI.Controllers
         }
         [HttpGet]
         [Route("getSizes")]
+        
         public async Task<IActionResult> getSizes()
         {
             var list = new SizeQuery();

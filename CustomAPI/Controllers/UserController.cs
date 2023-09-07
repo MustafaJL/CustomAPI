@@ -141,19 +141,19 @@ namespace CustomAPI.Controllers
                     return BadRequest(new JsonResult("Invalid Password"));
                 }
 
-                token = CreateToken(user);
+                token = CreateToken(user , request.RememberMe);
             }
 
 
 
-            UserInfoDto userInfo = new UserInfoDto
+            LoginResponse userInfo = new LoginResponse
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 Token = token,
-                RoleId = user.RoleId,
+                RoleName = user.Role.RoleName,
             };
 
             return Ok(userInfo);
@@ -251,7 +251,7 @@ namespace CustomAPI.Controllers
             return newPassword.SequenceEqual(passwordHash);
         }
 
-        private string CreateToken(User user)
+        private string CreateToken(User user , bool rememberMe)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -271,7 +271,7 @@ namespace CustomAPI.Controllers
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(60),
+                expires: rememberMe ? DateTime.Now.AddDays(30) : DateTime.Now.AddMinutes(60),
                 signingCredentials: cred
                 );
 
