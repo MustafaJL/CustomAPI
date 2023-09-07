@@ -46,41 +46,52 @@ namespace CustomAPI.Controllers
 
         [HttpPost]  
         [Route("addBrand")]
-        public async Task<IActionResult> addBrand(BrandDTO brandDTO)
+        public async Task<bool> addBrand(BrandDTO brandDTO)
         {
-            var command = new AddBrandCommand(brandDTO);
-            var response = await _mediator.Send(command);
-            if (response)
+
+            try
             {
-                return Ok("Brand has been added successfuly!");
+                var command = new AddBrandCommand(brandDTO);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+            catch (Exception ex) { 
+                return false;
+            }
+
+           
         }
 
         [HttpPut]
         [Route("updateBrand")]
-        public async Task<IActionResult> updateBrand(BrandDTO brandDTO)
+        public async Task<bool> updateBrand(BrandDTO brandDTO)
         {
-            var command = new UpdateBrandCommand(brandDTO);
-            var response = await _mediator.Send(command);
-            if(response)
+            try
             {
-                return Ok("Brand has been updated successfully");
+                var command = new UpdateBrandCommand(brandDTO);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         [HttpDelete]
         [Route("deleteBrandById/{brandId}")]
-        public async Task<IActionResult> deleteBrandById(long brandId)
+        public async Task<bool> deleteBrandById(long brandId)
         {
-            var command = new DeleteBrandCommand(brandId);
-            var response = await _mediator.Send(command);
-            if (response)
+            try
             {
-                return Ok($"Brand with Id {brandId} has been deleted successfully");
+                var command = new DeleteBrandCommand(brandId);
+                var response = await _mediator.Send(command);
+                return true;
             }
-            return BadRequest("Error Occured");
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
