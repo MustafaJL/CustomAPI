@@ -32,64 +32,64 @@ namespace CustomAPI.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(UserDto request)
-        {
-            string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
+        //[HttpPost("register")]
+        //public async Task<IActionResult> Register(UserDto request)
+        //{
+        //    string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
 
-            CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
-            User user = new User()
-            {
-                Id = 0,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                Password = Convert.ToBase64String(passwordHash),
-                Salt = Convert.ToBase64String(passwordSalt),
-                RoleId = request.RoleId,
-                PhoneNumber= request.PhoneNumber,
-                Address = request.Address,
-                DateOfBirth = request.DateOfBirth,
-                Gender  = request.Gender,
+        //    CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
+        //    User user = new User()
+        //    {
+        //        Id = 0,
+        //        FirstName = request.FirstName,
+        //        LastName = request.LastName,
+        //        Email = request.Email,
+        //        Password = Convert.ToBase64String(passwordHash),
+        //        Salt = Convert.ToBase64String(passwordSalt),
+        //        RoleId = request.RoleId,
+        //        PhoneNumber= request.PhoneNumber,
+        //        Address = request.Address,
+        //        DateOfBirth = request.DateOfBirth,
+        //        Gender  = request.Gender,
 
-            };
+        //    };
 
-            _unitOfWork.Users.Add(user);
-            _unitOfWork.Save();
-
-
-            return new JsonResult("Registered Successfully!");
-            //string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
-
-            //CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
-            //User user = new User()
-            //{
-            //    Id = 0,
-            //    FirstName = request.FirstName,
-            //    LastName = request.LastName,
-            //    Email = request.Email,
-            //    Password = Convert.ToBase64String(passwordHash),
-            //    Salt = Convert.ToBase64String(passwordSalt),
-            //    RoleId = request.RoleId,
-
-            //};
-
-            //_unitOfWork.Users.Add(user);
-            //_unitOfWork.Save();
+        //    _unitOfWork.Users.Add(user);
+        //    _unitOfWork.Save();
 
 
-            //return new JsonResult("Registered Successfully!");
-            //var command = new AddUserCommand(request);
-            //var response = await _mediator.Send(command);
-            //if (response)
-            //{
-            //    return Ok("User has been added successfuly!");
-            //}
-            //return BadRequest("Error Occured");
+        //    return new JsonResult("Registered Successfully!");
+        //    //string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
+
+        //    //CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
+        //    //User user = new User()
+        //    //{
+        //    //    Id = 0,
+        //    //    FirstName = request.FirstName,
+        //    //    LastName = request.LastName,
+        //    //    Email = request.Email,
+        //    //    Password = Convert.ToBase64String(passwordHash),
+        //    //    Salt = Convert.ToBase64String(passwordSalt),
+        //    //    RoleId = request.RoleId,
+
+        //    //};
+
+        //    //_unitOfWork.Users.Add(user);
+        //    //_unitOfWork.Save();
+
+
+        //    //return new JsonResult("Registered Successfully!");
+        //    //var command = new AddUserCommand(request);
+        //    //var response = await _mediator.Send(command);
+        //    //if (response)
+        //    //{
+        //    //    return Ok("User has been added successfuly!");
+        //    //}
+        //    //return BadRequest("Error Occured");
 
 
 
-        }
+        //}
 
         [HttpPost("login")]
         //public async Task<ActionResult<UserInfoDto>> Login(LoginDto request)
@@ -163,6 +163,7 @@ namespace CustomAPI.Controllers
 
 
         [HttpGet]
+        [Route("GetUsers")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsers()
         {
@@ -220,15 +221,15 @@ namespace CustomAPI.Controllers
 
         [HttpDelete]
         [Route("DeleteUserById/{userId}")]
-        public async Task<IActionResult> DeleteUserById(long userId)
+        public async Task<bool> DeleteUserById(long userId)
         {
             var command = new DeleteUserCommand(userId);
             var response = await _mediator.Send(command);
             if (response)
             {
-                return Ok($"User with Id {userId} has been deleted successfully");
+                return true;
             }
-            return BadRequest("Error Occured");
+            return false;
         }
 
 

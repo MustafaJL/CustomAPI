@@ -21,23 +21,23 @@ namespace Application.Command.CommandHandler
         {
             try
             {
-                await _unitOfWork.Users.Add(new Domain.Modals.User
-                {
-                    RoleId=request.userDto.RoleId,
+                //await _unitOfWork.Users.Add(new Domain.Modals.User
+                //{
+                //    RoleId=request.userDto.RoleId,
 
-                      Id = request.userDto.Id,
-                    FirstName = request.userDto.FirstName,
-                    LastName = request.userDto.LastName,
-                    Email = request.userDto.Email,
-                    Address = request.userDto.Address,
-                    Gender = request.userDto.Gender,
-                    DateOfBirth = request.userDto.DateOfBirth,
-                    PhoneNumber = request.userDto.PhoneNumber,
+                //      Id = request.userDto.Id,
+                //    FirstName = request.userDto.FirstName,
+                //    LastName = request.userDto.LastName,
+                //    Email = request.userDto.Email,
+                //    Address = request.userDto.Address,
+                //    Gender = request.userDto.Gender,
+                //    DateOfBirth = request.userDto.DateOfBirth,
+                //    PhoneNumber = request.userDto.PhoneNumber,
 
                     
-                });
+                //});
 
-                _unitOfWork.Save();
+                //_unitOfWork.Save();
                 return true;
             }
             catch (Exception ex)

@@ -63,7 +63,7 @@ namespace CustomAPI.Controllers
 
         [HttpPost]
         [Route("AddProduct")]
-        public async Task<IActionResult> AddProduct([FromForm] AddProductDTO productDTO)
+        public async Task<bool> AddProduct([FromForm] AddProductDTO productDTO)
         {
             try
             {
@@ -74,12 +74,12 @@ namespace CustomAPI.Controllers
                 var addProductDetialsCommand = new AddProductDetailsCommand(productConfigurationDTOs, addProductCommandResponse);
                 var addProductDetialsCommandResponse = await _mediator.Send(addProductDetialsCommand);
 
-                return Ok("Product Added successfully");
+                return true;
                 
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return false;
             }
         }
 
