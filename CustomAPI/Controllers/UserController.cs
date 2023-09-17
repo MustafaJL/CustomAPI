@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Persistance.DTO;
+using Persistance.DTO.Shared;
 using Persistance.UnitOfWork;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -32,99 +34,34 @@ namespace CustomAPI.Controllers
             _mediator = mediator;
         }
 
-        //[HttpPost("register")]
-        //public async Task<IActionResult> Register(UserDto request)
-        //{
-        //    string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
+        [HttpPost("AddUser")]
+        public async Task<bool> AddUser(AddUserDTO request)
+        {
+            
 
-        //    CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
-        //    User user = new User()
-        //    {
-        //        Id = 0,
-        //        FirstName = request.FirstName,
-        //        LastName = request.LastName,
-        //        Email = request.Email,
-        //        Password = Convert.ToBase64String(passwordHash),
-        //        Salt = Convert.ToBase64String(passwordSalt),
-        //        RoleId = request.RoleId,
-        //        PhoneNumber= request.PhoneNumber,
-        //        Address = request.Address,
-        //        DateOfBirth = request.DateOfBirth,
-        //        Gender  = request.Gender,
+            try
+            {
+                string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
 
-        //    };
+                CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
 
-        //    _unitOfWork.Users.Add(user);
-        //    _unitOfWork.Save();
+                var addUser = new AddUserCommand(request, passwordSalt , passwordHash);
+                var addUserResponse = await _mediator.Send(addUser);
 
+                return addUserResponse;
 
-        //    return new JsonResult("Registered Successfully!");
-        //    //string defaultPassword = _configuration.GetSection("AppSettings:DefaultPassword").Value;
-
-        //    //CreatePasswordHash(defaultPassword, out byte[] passwordHash, out byte[] passwordSalt);
-        //    //User user = new User()
-        //    //{
-        //    //    Id = 0,
-        //    //    FirstName = request.FirstName,
-        //    //    LastName = request.LastName,
-        //    //    Email = request.Email,
-        //    //    Password = Convert.ToBase64String(passwordHash),
-        //    //    Salt = Convert.ToBase64String(passwordSalt),
-        //    //    RoleId = request.RoleId,
-
-        //    //};
-
-        //    //_unitOfWork.Users.Add(user);
-        //    //_unitOfWork.Save();
-
-
-        //    //return new JsonResult("Registered Successfully!");
-        //    //var command = new AddUserCommand(request);
-        //    //var response = await _mediator.Send(command);
-        //    //if (response)
-        //    //{
-        //    //    return Ok("User has been added successfuly!");
-        //    //}
-        //    //return BadRequest("Error Occured");
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
 
 
-        //}
+
+        }
 
         [HttpPost("login")]
-        //public async Task<ActionResult<UserInfoDto>> Login(LoginDto request)
-        //{
-        //    var user = await _unitOfWork.Users.GetUserByEmail(request.Email);
-        //    string token = "";
-        //    if (user == null)
-        //    {
-        //        return BadRequest(new JsonResult("User not found!"));
-        //    }
-        //    else
-        //    {
-
-        //        if (!VerifyPasswordHash(request.Password, Convert.FromBase64String(user.Password), Convert.FromBase64String(user.Salt)))
-        //        {
-        //            return BadRequest(new JsonResult("Invalid Password"));
-        //        }
-
-        //        token = CreateToken(user);
-        //    }
-
-
-
-        //    UserInfoDto userInfo = new UserInfoDto
-        //    {
-        //        Id = user.Id,
-        //        FirstName = user.FirstName,
-        //        LastName = user.LastName,
-        //        Email = user.Email,
-        //        Token = token,
-        //        RoleId = user.RoleId,
-        //    };
-           
-        //    return Ok(userInfo);
-        //}
         public async Task<ActionResult<UserDto>> Login(LoginDto request)
         {
             var user = await _unitOfWork.Users.GetUserByEmail(request.Email);
@@ -164,24 +101,8 @@ namespace CustomAPI.Controllers
 
         [HttpGet]
         [Route("GetUsers")]
-        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsers()
         {
-            //IEnumerable<User> users = await _unitOfWork.Users.GetAllUsers();
-            //List<UserViewModel> usersViewModel = new List<UserViewModel>();
-            //foreach(var user in users)
-            //{
-            //    usersViewModel.Add(new UserViewModel
-            //    {
-            //        Id = user.Id,
-            //        FirstName = user.FirstName,
-            //        LastName = user.LastName,
-            //        Email = user.Email,
-            //        Role = user.Role,
-            //    });
-            //}
-
-            //return Ok(usersViewModel);
             var list = new GetAllUsersQuery();
             var response = await _mediator.Send(list);
             return Ok(response);
@@ -194,7 +115,7 @@ namespace CustomAPI.Controllers
         public async Task<IActionResult> GetUserById(long userId)
         {
 
-            var query = new GetUserByIdQuery(new UserDto { Id = userId });
+            var query = new GetUserByIdQuery(userId);
             var response = await _mediator.Send(query);
 
             if (response == null)
@@ -208,15 +129,15 @@ namespace CustomAPI.Controllers
 
         [HttpPut]
         [Route("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(UserDto userDto)
+        public async Task<bool> UpdateUser(AddUserDTO userDto)
         {
             var command = new UpdateUserCommand(userDto);
             var response = await _mediator.Send(command);
             if (response)
             {
-                return Ok("User has been updated successfully");
+                return true;
             }
-            return BadRequest("Error Occured");
+            return false;
         }
 
         [HttpDelete]
@@ -281,6 +202,6 @@ namespace CustomAPI.Controllers
             return jwt;
         }
 
-
+        
     }
 }

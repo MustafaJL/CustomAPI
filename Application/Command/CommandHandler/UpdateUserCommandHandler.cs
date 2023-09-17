@@ -28,19 +28,18 @@ namespace Application.Command.CommandHandler
             {
                 try
                 {
-                    //user.Address = request.userDto.Address;
-                    //user.RoleId = request.userDto.RoleId;
-                    //  user.Id = request.userDto.Id;
-                    //user.FirstName = request.userDto.FirstName;
-                    //user.LastName = request.userDto.LastName;
-                    //user.Email = request.userDto.Email;
-                    //user.Address = request.userDto.Address;
-                    //user.Gender = request.userDto.Gender;
-                    //user.DateOfBirth = request.userDto.DateOfBirth;
-                    //user.PhoneNumber = request.userDto.PhoneNumber;
+                    user.Address = request.userDto.Address;
+                    user.RoleId = request.userDto.roleId;
+                    user.FirstName = request.userDto.firstName;
+                    user.LastName = request.userDto.lastName;
+                    user.Email = request.userDto.Email;
+                    user.Gender = request.userDto.Gender;
+                    user.DateOfBirth = request.userDto.dateOfBirth;
+                    user.PhoneNumber = request.userDto.phoneNumber;
+                    user.isActive = request.userDto.isActive;
 
-                    //_unitOfWork.Users.Update(user);
-                    //_unitOfWork.Save();
+                    _unitOfWork.Users.Update(user);
+                    _unitOfWork.Save();
                     return true;
                 }
                 catch (Exception ex)

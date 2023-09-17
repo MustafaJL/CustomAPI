@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using Persistance.DTO;
-using Persistance.DTO.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Command
+namespace Application.Query
 {
-    public record UpdateUserCommand(AddUserDTO userDto) : IRequest<bool>;
+    public record GetProductDetailsById(long productId): IRequest<ProductDetailsDTO>;
+    
 }

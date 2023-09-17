@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Persistance.DTO.Shared;
 
 namespace Persistance.Repository
 {
@@ -27,22 +28,37 @@ namespace Persistance.Repository
             _fileService = fileService;
         }
 
-        public async Task<User> GetUserById(long userId)
+        public async Task<AddUserDTO> GetUserById(long userId)
         {
-            User user = await _context.Users
+            AddUserDTO user = await _context.Users
+                .Where(u => u.Id == userId)
                 .Include(x => x.Role)
-                .FirstOrDefaultAsync(x => x.Id == userId);
+                .Select(x => new AddUserDTO
+                {
+                    Id = x.Id,
+                    firstName = x.FirstName,
+                    lastName = x.LastName,
+                    Email = x.Email,
+                    Address = x.Address,
+                    phoneNumber = x.PhoneNumber,
+                    dateOfBirth = x.DateOfBirth,
+                    roleId = x.RoleId,
+                    Gender = x.Gender,
+                    isActive = x.isActive
+                })
+                .FirstOrDefaultAsync()
+                ;
 
             if (user == null)
             {
-                return new User();
+                return new AddUserDTO();
             }
 
             return user;
         }
         public async Task<IEnumerable<User>> GetAllUsers()
         {
-            IEnumerable<User> users = _context.Users.Include(x => x.Role);
+            IEnumerable<User> users = _context.Users.Where(x => x.isActive).Include(x => x.Role);
 
             return users;
         }
@@ -64,7 +80,9 @@ namespace Persistance.Repository
                                 Address = x.Address,
                                 PhoneNumber = x.PhoneNumber,
                                 RoleId = x.RoleId,
-                                RoleName = x.Role.RoleName
+                                RoleName = x.Role.RoleName,
+                                isActive = x.isActive
+                                
                             })
                             .ToListAsync();
 

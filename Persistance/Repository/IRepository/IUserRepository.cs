@@ -1,5 +1,6 @@
 ﻿using Domain.Modals;
 using Persistance.DTO;
+using Persistance.DTO.Shared;
 using Persistance.Repository.IBase;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Persistance.Repository.IRepository
 
         public Task<IEnumerable<UserDto>> GetAllUser();
 
-        public Task<User> GetUserById(long userId);
+        public Task<AddUserDTO> GetUserById(long userId);
 
     }
 }

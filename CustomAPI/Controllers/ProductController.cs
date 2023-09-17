@@ -114,5 +114,12 @@ namespace CustomAPI.Controllers
                 return false;
             }
         }
+        
+        [HttpGet]
+        [Route("GetProductDetailsById/{productId}")]
+        public async Task<IActionResult> GetProductDetailsById(long productId)
+        {
+
+        }
     }
 }

@@ -26,9 +26,7 @@ namespace Domain.Modals
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ImagePath { get; set; } = string.Empty;
-        //public long NationalityId { get; set; }
-        //[ForeignKey("NationalityId")]
-        //public Nationality Nationality { get; set; }
+        public bool isActive { get; set; } = false;
 
 
 
