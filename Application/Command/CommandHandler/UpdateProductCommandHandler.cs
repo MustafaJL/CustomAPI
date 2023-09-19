@@ -82,12 +82,17 @@ namespace Application.Command.CommandHandler
             try
             {
                 var product = await _unitOfWork.Products.GetById(productId);
-                _fileService.DeleteImage(product.ImagePath, AppConstans.PRODUCTS_IMAGE);
+                if(productDTO.productImage != null)
+                {
+                    _fileService.DeleteImage(product.ImagePath, AppConstans.PRODUCTS_IMAGE);
+                    product.ImagePath = _fileService.UploadImage(productDTO.productImage, AppConstans.PRODUCTS_IMAGE).Result;
+                }
+                
                 product.ProductName = productDTO.productName;
                 product.Description = productDTO.productDescription;
                 product.CategoryId = productDTO.categoryId;
                 product.BrandId = productDTO.brandId;
-                product.ImagePath = _fileService.UploadImage(productDTO.productImage, AppConstans.PRODUCTS_IMAGE).Result;
+                
                 _unitOfWork.Products.Update(product);
                 _unitOfWork.Save();
                 return true;

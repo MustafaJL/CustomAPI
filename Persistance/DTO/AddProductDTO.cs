@@ -15,7 +15,7 @@ namespace Persistance.DTO
             public string configurations { get; set; }
             public string productDescription { get; set; }
             public string productName { get; set; }
-            public IFormFile productImage { get; set; }
+            public IFormFile? productImage { get; set; }
         
     }
 }

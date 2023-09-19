@@ -1,5 +1,6 @@
 ﻿using CustomAPI.ViewModel;
 using MediatR;
+using Persistance.DTO;
 using Persistance.UnitOfWork;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Query.QueryHandler
 {
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery , ProductViewModel>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery , GetProductByIdDTO>
     {
         private readonly IUnitOfWork _unitOfWork;
         #region Properties
@@ -25,7 +26,7 @@ namespace Application.Query.QueryHandler
         #endregion
 
         #region Public Actions
-        public Task<ProductViewModel> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+        public Task<GetProductByIdDTO> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {

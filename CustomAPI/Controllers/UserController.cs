@@ -193,7 +193,7 @@ namespace CustomAPI.Controllers
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: rememberMe ? DateTime.Now.AddDays(30) : DateTime.Now.AddMinutes(60),
+                expires: rememberMe ? DateTime.UtcNow.AddHours(2).AddDays(30) : DateTime.UtcNow.AddHours(2).AddMinutes(1),
                 signingCredentials: cred
                 );
 

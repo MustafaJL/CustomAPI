@@ -47,7 +47,7 @@ namespace CustomAPI.Controllers
 
         [HttpGet]
         [Route("GetProductById/{productId}")]
-        public async Task<ProductViewModel> GetProductById(long productId)
+        public async Task<GetProductByIdDTO> GetProductById(long productId)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace CustomAPI.Controllers
             }
             catch(Exception ex)
             {
-                return new ProductViewModel();
+                return new GetProductByIdDTO();
             }
         }
 
@@ -119,7 +119,7 @@ namespace CustomAPI.Controllers
         [Route("GetProductDetailsById/{productId}")]
         public async Task<IActionResult> GetProductDetailsById(long productId)
         {
-
+            return Ok();
         }
     }
 }

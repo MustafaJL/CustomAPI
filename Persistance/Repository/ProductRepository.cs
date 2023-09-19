@@ -4,6 +4,7 @@ using Domain.Modals;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Persistance.DTO;
 using Persistance.Repository.Base;
 using Persistance.Repository.IBase;
 using Persistance.Repository.IRepository;
@@ -69,23 +70,21 @@ namespace Persistance.Repository
 
         }
 
-        public async Task<ProductViewModel> GetProductById(long productId)
+        public async Task<GetProductByIdDTO> GetProductById(long productId)
         {
 
 
             var productViewModel = await _context
                             .Products
                             .Where(x => x.Id == productId)
-                            .Include(x => x.Category)
-                            .Include(x => x.Brand)
                             .Include(x => x.ProductDetails)
                             .ThenInclude(x => x.Size)
-                            .Select(x => new ProductViewModel
+                            .Select(x => new GetProductByIdDTO
                             {
                                 Id = x.Id,
                                 Name = x.ProductName,
-                                Category = x.Category.CategoryName,
-                                Brand = x.Brand.BrandName,
+                                categoryId = x.CategoryId,
+                                brandId = x.BrandId,
                                 Description = x.Description,
                                 imagePath = _fileService.GetImage(x.ImagePath, AppConstans.PRODUCTS_IMAGE),
                                 productDetails = x.ProductDetails

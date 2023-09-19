@@ -37,9 +37,14 @@ namespace Application.Command.CommandHandler
                     Description = request.productDTO.productDescription,
                     CategoryId = request.productDTO.categoryId,
                     BrandId = request.productDTO.brandId,
-                    ImagePath = _fileService.UploadImage(request.productDTO.productImage, AppConstans.PRODUCTS_IMAGE).Result
+                    ImagePath = "defaultProductImage.gif"
                 };
-                await _unitOfWork.Products.Add(product);
+
+                if (request.productDTO.productImage != null)
+                {
+                    product.ImagePath = _fileService.UploadImage(request.productDTO.productImage, AppConstans.PRODUCTS_IMAGE).Result;
+                }
+                        await _unitOfWork.Products.Add(product);
 
                 _unitOfWork.Save();
                 return product.Id;

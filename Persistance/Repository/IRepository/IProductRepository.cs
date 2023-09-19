@@ -1,5 +1,6 @@
 ﻿using CustomAPI.ViewModel;
 using Domain.Modals;
+using Persistance.DTO;
 using Persistance.Repository.IBase;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,6 @@ namespace Persistance.Repository.IRepository
     public interface IProductRepository : IRepository<Product>
     {
         Task<List<ProductViewModel>> GetProducts();
-        Task<ProductViewModel> GetProductById(long productId);
+        Task<GetProductByIdDTO> GetProductById(long productId);
     }
 }
