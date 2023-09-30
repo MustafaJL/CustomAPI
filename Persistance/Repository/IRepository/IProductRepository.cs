@@ -12,7 +12,7 @@ namespace Persistance.Repository.IRepository
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Task<List<ProductViewModel>> GetProducts();
+        Task<List<ProductViewModel>> GetProducts(string brandIds);
         Task<GetProductByIdDTO> GetProductById(long productId);
     }
 }

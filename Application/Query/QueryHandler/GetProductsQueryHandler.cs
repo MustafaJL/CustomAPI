@@ -25,7 +25,7 @@ namespace Application.Query.QueryHandler
         {
             try
             {
-                return await Task.FromResult(await _unitOfWork.Products.GetProducts());
+                return await Task.FromResult(await _unitOfWork.Products.GetProducts(request.brandIds));
             }
             catch
             {

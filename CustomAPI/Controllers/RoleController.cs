@@ -2,15 +2,19 @@
 using Application.Query;
 using Domain.Modals;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Persistance.DTO;
 using Persistance.UnitOfWork;
+using System.Data;
 
 namespace CustomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class RoleController : ControllerBase
 
     {

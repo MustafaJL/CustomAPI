@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace Application.Query
 {
-    public record GetProductsQuery() : IRequest<List<ProductViewModel>>;
+    public record GetProductsQuery(string brandIds) : IRequest<List<ProductViewModel>>;
     
 }

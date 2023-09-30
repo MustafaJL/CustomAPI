@@ -14,11 +14,15 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace CustomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -29,12 +33,12 @@ namespace CustomAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetProducts")]
-        public async Task<List<ProductViewModel>> GetProducts()
+        [Route("GetProducts/{brandIds}")]
+        public async Task<List<ProductViewModel>> GetProducts(string brandIds)
         {
             try
             {
-                var query = new GetProductsQuery();
+                var query = new GetProductsQuery(brandIds);
                 var response = await _mediator.Send(query);
                 return await Task.FromResult(response);
             }

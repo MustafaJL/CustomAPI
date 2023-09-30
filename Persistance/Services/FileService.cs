@@ -20,17 +20,22 @@ namespace Persistance.Services
 
         public void DeleteImage(string path, string folderName)
         {
-            var imagePath = Path.Combine(_configuration.GetSection("Images:" + folderName).Value, path);
-            try
+            if (path != "defaultProductImage.gif")
             {
-                if (System.IO.File.Exists(imagePath))
+                var imagePath = Path.Combine(_configuration.GetSection("Images:" + folderName).Value, path);
+                try
                 {
-                    System.IO.File.Delete(imagePath);
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+                catch (Exception ex)
+                {
                 }
             }
-            catch(Exception ex)
-            {
-            }
+
+            
             
         }
 

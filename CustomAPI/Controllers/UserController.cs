@@ -21,6 +21,8 @@ namespace CustomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class UserController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -62,6 +64,7 @@ namespace CustomAPI.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDto>> Login(LoginDto request)
         {
             var user = await _unitOfWork.Users.GetUserByEmail(request.Email);
@@ -112,6 +115,7 @@ namespace CustomAPI.Controllers
 
         [HttpGet]
         [Route("GetUserById/{userId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserById(long userId)
         {
 

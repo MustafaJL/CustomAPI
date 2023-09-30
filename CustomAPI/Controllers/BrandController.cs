@@ -1,6 +1,7 @@
 ﻿using Application.Command;
 using Application.Query;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Persistance.DTO;
@@ -9,6 +10,8 @@ namespace CustomAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class BrandController : ControllerBase
     {
         private IMediator _mediator;

@@ -32,13 +32,14 @@ namespace Persistance.Repository
             _fileService = fileService;
         }
 
-        public async Task<List<ProductViewModel>> GetProducts()
+        public async Task<List<ProductViewModel>> GetProducts(string brandsIds)
         {
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-            
+            List<long> brandIdList = brandsIds.ToList().Select(x => Convert.ToInt64(x)).ToList();
            
                     productViewModels = await _context
                                     .Products
+                                    .Where(x => brandIdList.Contains(x.BrandId))
                                     .Include(x => x.Category)
                                     .Include(x => x.Brand)
                                     .Include(x => x.ProductDetails)
