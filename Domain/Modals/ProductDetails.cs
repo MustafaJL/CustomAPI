@@ -13,6 +13,7 @@ namespace Domain.Modals
         public long SizeId { get; set; }
         public long TotalQuantity { get; set; }
         public double Price { get; set; }
+        public double DiscountPrice { get; set; }
 
         public Product Product { get; set; }
         public Size Size { get; set; }

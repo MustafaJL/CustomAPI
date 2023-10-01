@@ -112,6 +112,7 @@ namespace Application.Command.CommandHandler
                     productId = productId,
                     SizeId = Convert.ToInt64(x.sizeId),
                     Price = x.price,
+                    DiscountPrice = x.discountPrice,
                     TotalQuantity = x.totalQuantity
                 }).ToList());
                 _unitOfWork.Save();

@@ -35,7 +35,7 @@ namespace Persistance.Repository
         public async Task<List<ProductViewModel>> GetProducts(string brandsIds)
         {
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-            List<long> brandIdList = brandsIds.ToList().Select(x => Convert.ToInt64(x)).ToList();
+            List<long> brandIdList = brandsIds.Split(',').ToList().Select(x => Convert.ToInt64(x)).ToList();
            
                     productViewModels = await _context
                                     .Products
@@ -58,7 +58,8 @@ namespace Persistance.Repository
                                                                     sizeId= x.SizeId,
                                                                     TotalQuantity= x.TotalQuantity,
                                                                     sizeName = x.Size.size,
-                                                                    Price= x.Price,                                                                   
+                                                                    Price= x.Price,      
+                                                                    DiscountPrice= x.DiscountPrice,
                                                                 })
                                                                 .ToList()
                                     })
@@ -95,6 +96,7 @@ namespace Persistance.Repository
                                                             TotalQuantity = x.TotalQuantity,
                                                             sizeName = x.Size.size,
                                                             Price = x.Price,
+                                                            DiscountPrice = x.DiscountPrice
                                                         })
                                                         .ToList()
                             })

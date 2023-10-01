@@ -11,5 +11,6 @@ namespace Persistance.DTO
         public string sizeId { get; set; }
         public long totalQuantity { get; set; }
         public double price { get; set; }
+        public double discountPrice { get; set; }
     }
 }

@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddPolicy(name: "cors",builder =>
     {
         builder.AllowAnyOrigin() // Replace with your Angular app's URL
                .AllowAnyHeader()
@@ -80,7 +80,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(SizeQuery).Assembly));
 
 var app = builder.Build();
-app.UseCors();
+
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
@@ -88,8 +88,9 @@ app.UseCors();
     app.UseSwaggerUI();
 //}
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors("cors");
 app.UseAuthentication();
 app.UseAuthorization();
 
