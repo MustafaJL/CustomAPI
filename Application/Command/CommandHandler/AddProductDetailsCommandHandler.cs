@@ -31,7 +31,8 @@ namespace Application.Command.CommandHandler
                     productId = request.productId,
                     SizeId = Convert.ToInt64(x.sizeId),
                     Price = x.price,
-                    TotalQuantity = x.totalQuantity
+                    TotalQuantity = x.totalQuantity,
+                    DiscountPrice = x.discountPrice,
                 }).ToList());
                 _unitOfWork.Save();
                 return true;

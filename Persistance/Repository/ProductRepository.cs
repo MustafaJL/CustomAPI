@@ -39,7 +39,7 @@ namespace Persistance.Repository
            
                     productViewModels = await _context
                                     .Products
-                                    .Where(x => brandIdList.Contains(x.BrandId))
+                                    .Where(x => brandIdList.Contains(0) ? 1==1 : brandIdList.Contains(x.BrandId))
                                     .Include(x => x.Category)
                                     .Include(x => x.Brand)
                                     .Include(x => x.ProductDetails)
